@@ -6,8 +6,7 @@ import ru.javawebinar.topjava.model.UserMealWithExceed;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * GKislin
@@ -29,7 +28,63 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed>  getFilteredMealsWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        ArrayList<UserMealWithExceed> mealWithExceedList = new ArrayList<UserMealWithExceed>();
+
+        Collections.sort(mealList, new Comparator<UserMeal>() {
+            @Override
+            public int compare(UserMeal o1, UserMeal o2) {
+                return o1.getDateTime().compareTo(o2.getDateTime());
+            }
+        });
+
+        int index = 0;
+        UserMeal userMealFirst = mealList.get(0);
+
+        for(int i = 1; i < mealList.size(); i++) {
+            UserMeal userMeal = mealList.get(i);
+            if (userMealFirst.getDateTime().getYear() == userMeal.getDateTime().getYear() &&
+                    userMealFirst.getDateTime().getDayOfYear() == userMeal.getDateTime().getDayOfYear()) {
+
+            } else {
+                setExceeded(mealList.subList(index, i), mealWithExceedList, caloriesPerDay);
+                index = i;
+                userMealFirst = mealList.get(i);
+            }
+        }
+
+        setExceeded(mealList.subList(index, mealList.size()), mealWithExceedList, caloriesPerDay);
+
+
         // TODO return filtered list with correctly exceeded field
         return null;
+    }
+
+    public static void setExceeded(List<UserMeal> userMeals,
+                                   List<UserMealWithExceed> userMealWithExceeds,
+                                   int caloriesPerDay) {
+        int totalCaloriesPerDay = 0;
+
+        for (UserMeal el : userMeals)
+            totalCaloriesPerDay += el.getCalories();
+
+        if (totalCaloriesPerDay > caloriesPerDay) {
+            for (UserMeal el : userMeals) {
+                userMealWithExceeds.add(new UserMealWithExceed(
+                        el.getDateTime(),
+                        el.getDescription(),
+                        el.getCalories(),
+                        true));
+            }
+        } else {
+            for (UserMeal el : userMeals) {
+                userMealWithExceeds.add(new UserMealWithExceed(
+                        el.getDateTime(),
+                        el.getDescription(),
+                        el.getCalories(),
+                        false));
+            }
+        }
+
+
     }
 }
