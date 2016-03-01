@@ -42,10 +42,8 @@ public class UserMealsUtil {
 
         for(int i = 1; i < mealList.size(); i++) {
             UserMeal userMeal = mealList.get(i);
-            if (userMealFirst.getDateTime().getYear() == userMeal.getDateTime().getYear() &&
-                    userMealFirst.getDateTime().getDayOfYear() == userMeal.getDateTime().getDayOfYear()) {
-
-            } else {
+            if (userMealFirst.getDateTime().getYear() != userMeal.getDateTime().getYear() &&
+                    userMealFirst.getDateTime().getDayOfYear() != userMeal.getDateTime().getDayOfYear()) {
                 setExceeded(mealList.subList(index, i), mealWithExceedList, caloriesPerDay);
                 index = i;
                 userMealFirst = mealList.get(i);
@@ -54,9 +52,14 @@ public class UserMealsUtil {
 
         setExceeded(mealList.subList(index, mealList.size()), mealWithExceedList, caloriesPerDay);
 
-
+        LinkedList<UserMealWithExceed> resultUserMealWithExceed = new LinkedList<>();
+        for (UserMealWithExceed el : mealWithExceedList){
+            if(TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)){
+                resultUserMealWithExceed.add(el);
+            }
+        }
         // TODO return filtered list with correctly exceeded field
-        return null;
+        return resultUserMealWithExceed;
     }
 
     public static void setExceeded(List<UserMeal> userMeals,
