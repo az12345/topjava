@@ -64,7 +64,6 @@ public class UserMealsUtil {
                     endTime);
         }
 
-
         // TODO return filtered list with correctly exceeded field
         return mealWithExceedList;
     }
@@ -75,25 +74,19 @@ public class UserMealsUtil {
                                    int totalCaloriesPerDay,
                                    LocalTime startTime,
                                    LocalTime endTime) {
-        if (totalCaloriesPerDay > caloriesPerDay) {
-            for (UserMeal el : userMeals) {
-                if(TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)) {
-                    userMealWithExceeds.add(new UserMealWithExceed(
-                            el.getDateTime(),
-                            el.getDescription(),
-                            el.getCalories(),
-                            true));
-                }
-            }
-        } else {
-            for (UserMeal el : userMeals) {
-                if (TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)) {
-                    userMealWithExceeds.add(new UserMealWithExceed(
-                            el.getDateTime(),
-                            el.getDescription(),
-                            el.getCalories(),
-                            false));
-                }
+        boolean flag;
+        if(totalCaloriesPerDay > caloriesPerDay)
+            flag = true;
+        else
+            flag = false;
+
+        for (UserMeal el : userMeals) {
+            if(TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)) {
+                userMealWithExceeds.add(new UserMealWithExceed(
+                        el.getDateTime(),
+                        el.getDescription(),
+                        el.getCalories(),
+                        flag));
             }
         }
     }
