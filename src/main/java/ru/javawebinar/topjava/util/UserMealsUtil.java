@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
@@ -28,66 +29,72 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed>  getFilteredMealsWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        ArrayList<UserMealWithExceed> mealWithExceedList = new ArrayList<UserMealWithExceed>();
-
-        Collections.sort(mealList, new Comparator<UserMeal>() {
-            @Override
-            public int compare(UserMeal o1, UserMeal o2) {
-                return o1.getDateTime().compareTo(o2.getDateTime());
-            }
-        });
-
+        ArrayList<UserMealWithExceed> mealWithExceedList = new ArrayList<>();
         int index = 0;
-        UserMeal userMealFirst = mealList.get(0);
+        int totalCaloriesPerDay = 0;
+        UserMeal userMealFirst = null;
 
-        for(int i = 1; i < mealList.size(); i++) {
-            UserMeal userMeal = mealList.get(i);
-            if (userMealFirst.getDateTime().getYear() != userMeal.getDateTime().getYear() &&
-                    userMealFirst.getDateTime().getDayOfYear() != userMeal.getDateTime().getDayOfYear()) {
-                setExceeded(mealList.subList(index, i), mealWithExceedList, caloriesPerDay);
-                index = i;
-                userMealFirst = mealList.get(i);
+        Collections.sort(mealList, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
+
+        if(mealList.size() > 0) {
+            userMealFirst = mealList.get(0);
+            totalCaloriesPerDay = userMealFirst.getCalories();
+
+            for(int i = 1; i < mealList.size(); i++) {
+                UserMeal userMeal = mealList.get(i);
+                if (!userMealFirst.getDateTime().toLocalDate().isEqual(userMeal.getDateTime().toLocalDate())) {
+                    setExceeded(mealList.subList(index, i),
+                            mealWithExceedList,
+                            caloriesPerDay,
+                            totalCaloriesPerDay,
+                            startTime,
+                            endTime);
+                    index = i;
+                    userMealFirst = mealList.get(i);
+                } else {
+                    totalCaloriesPerDay += userMeal.getCalories();
+                }
             }
+
+            setExceeded(mealList.subList(index, mealList.size()),
+                    mealWithExceedList,
+                    caloriesPerDay,
+                    totalCaloriesPerDay,
+                    startTime,
+                    endTime);
         }
 
-        setExceeded(mealList.subList(index, mealList.size()), mealWithExceedList, caloriesPerDay);
 
-        LinkedList<UserMealWithExceed> resultUserMealWithExceed = new LinkedList<>();
-        for (UserMealWithExceed el : mealWithExceedList){
-            if(TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)){
-                resultUserMealWithExceed.add(el);
-            }
-        }
         // TODO return filtered list with correctly exceeded field
-        return resultUserMealWithExceed;
+        return mealWithExceedList;
     }
 
     public static void setExceeded(List<UserMeal> userMeals,
                                    List<UserMealWithExceed> userMealWithExceeds,
-                                   int caloriesPerDay) {
-        int totalCaloriesPerDay = 0;
-
-        for (UserMeal el : userMeals)
-            totalCaloriesPerDay += el.getCalories();
-
+                                   int caloriesPerDay,
+                                   int totalCaloriesPerDay,
+                                   LocalTime startTime,
+                                   LocalTime endTime) {
         if (totalCaloriesPerDay > caloriesPerDay) {
             for (UserMeal el : userMeals) {
-                userMealWithExceeds.add(new UserMealWithExceed(
-                        el.getDateTime(),
-                        el.getDescription(),
-                        el.getCalories(),
-                        true));
+                if(TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)) {
+                    userMealWithExceeds.add(new UserMealWithExceed(
+                            el.getDateTime(),
+                            el.getDescription(),
+                            el.getCalories(),
+                            true));
+                }
             }
         } else {
             for (UserMeal el : userMeals) {
-                userMealWithExceeds.add(new UserMealWithExceed(
-                        el.getDateTime(),
-                        el.getDescription(),
-                        el.getCalories(),
-                        false));
+                if (TimeUtil.isBetween(el.getDateTime().toLocalTime(), startTime, endTime)) {
+                    userMealWithExceeds.add(new UserMealWithExceed(
+                            el.getDateTime(),
+                            el.getDescription(),
+                            el.getCalories(),
+                            false));
+                }
             }
         }
-
-
     }
 }
