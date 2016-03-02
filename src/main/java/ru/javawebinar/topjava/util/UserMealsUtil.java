@@ -24,15 +24,13 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31,20,0), "Ужин", 510)
         );
         getFilteredMealsWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
-//        .toLocalDate();
-//        .toLocalTime();
     }
 
     public static List<UserMealWithExceed>  getFilteredMealsWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         ArrayList<UserMealWithExceed> mealWithExceedList = new ArrayList<>();
         int index = 0;
-        int totalCaloriesPerDay = 0;
-        UserMeal userMealFirst = null;
+        int totalCaloriesPerDay;
+        UserMeal userMealFirst;
 
         Collections.sort(mealList, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
 
@@ -64,7 +62,6 @@ public class UserMealsUtil {
                     startTime,
                     endTime);
         }
-        // TODO return filtered list with correctly exceeded field
         return mealWithExceedList;
     }
 
