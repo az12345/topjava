@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
 <head>
@@ -7,10 +8,9 @@
 </head>
 <body>
 <h3>MealList</h3>
-<table>
+<table cellspacing="5" cellpadding="10" border="1">
     <thead>
     <tr>
-        <td>Id</td>
         <td>Date&Time</td>
         <td>Description</td>
         <td>Calories</td>
@@ -18,10 +18,21 @@
     </thead>
 
     <c:forEach var="el" items="${list}">
-    <tr>
-        <td><c:out value="${el.}"></td>
-    </tr>
+        <c:if test="${el.exceed}">
+            <tr style="color: red">
+                <td><c:out value="${el.dateTime}"/></td>
+                <td><c:out value="${el.description}"/></td>
+                <td><c:out value="${el.calories}"/></td>
+            </tr>
+       </c:if>
+        <c:if test="${!el.exceed}">
+            <tr style="color: green">
+                <td><c:out value="${el.dateTime}"/></td>
+                <td><c:out value="${el.description}"/></td>
+                <td><c:out value="${el.calories}"/></td>
+            </tr>
+        </c:if>
     </c:forEach>
+</table>
 </body>
 </html>
-
