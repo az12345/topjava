@@ -10,4 +10,7 @@ import java.util.List;
  */
 public interface MealsDao {
     public List<UserMealWithExceed> findAll();
+    public void update(UserMeal userMeal);
+    public void create(UserMeal user);
+    public void delete(Integer id);
 }
