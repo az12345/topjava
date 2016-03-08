@@ -22,10 +22,8 @@
         <c:if test="${el.exceed}">
             <c:set var="color" value="red"/>
         </c:if>
-
-        <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="both" />
         <tr style="color: ${color}">
-            <td><javatime:format value="${el.dateTime}" style="MS" pattern="yyyy-M-dd H:mm"/></td>
+            <td><javatime:format value="${el.dateTime}" style="MS" pattern="dd-M-yyyy H:mm"/></td>
             <td><c:out value="${el.description}"/></td>
             <td><c:out value="${el.calories}"/></td>
         </tr>
