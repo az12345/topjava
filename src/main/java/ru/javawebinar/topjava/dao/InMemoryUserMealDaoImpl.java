@@ -10,11 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Brother on 06.03.2016.
  */
-public class HashTableMealDaoImpl implements MealDao {
+public class InMemoryUserMealDaoImpl implements MealDao {
     private Map<Integer, UserMeal> hashTable;
     public static AtomicInteger maxId = new AtomicInteger(0);
 
-    public HashTableMealDaoImpl() {
+    public InMemoryUserMealDaoImpl() {
         this.hashTable = new Hashtable<>();
         List<UserMeal> mealList = Arrays.asList(
                 new UserMeal(1, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
@@ -44,12 +44,12 @@ public class HashTableMealDaoImpl implements MealDao {
 
     @Override
     public void create(UserMeal userMeal) {
-        UserMeal newEl = new UserMeal(
+        UserMeal newMeal = new UserMeal(
                 maxId.incrementAndGet(),
                 userMeal.getDateTime(),
                 userMeal.getDescription(),
                 userMeal.getCalories());
-        hashTable.put(newEl.getId(), newEl);
+        hashTable.put(newMeal.getId(), newMeal);
     }
 
     @Override

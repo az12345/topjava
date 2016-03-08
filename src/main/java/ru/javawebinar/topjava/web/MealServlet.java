@@ -23,7 +23,7 @@ public class MealServlet extends HttpServlet {
     private MealDao mealsDao;
 
     public MealServlet() {
-        this.mealsDao = new HashTableMealDaoImpl();
+        this.mealsDao = new InMemoryUserMealDaoImpl();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
