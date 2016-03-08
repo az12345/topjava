@@ -17,15 +17,15 @@
     </tr>
     </thead>
 
-    <c:forEach var="el" items="${list}">
+    <c:forEach var="meal" items="${list}">
         <c:set var="color" value="green"/>
-        <c:if test="${el.exceed}">
+        <c:if test="${meal.exceed}">
             <c:set var="color" value="red"/>
         </c:if>
         <tr style="color: ${color}">
-            <td><javatime:format value="${el.dateTime}" style="MS" pattern="dd-M-yyyy H:mm"/></td>
-            <td><c:out value="${el.description}"/></td>
-            <td><c:out value="${el.calories}"/></td>
+            <td><javatime:format value="${meal.dateTime}" style="MS" pattern="dd-M-yyyy H:mm"/></td>
+            <td><c:out value="${meal.description}"/></td>
+            <td><c:out value="${meal.calories}"/></td>
         </tr>
     </c:forEach>
 </table>
