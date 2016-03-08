@@ -6,16 +6,15 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * Created by Brother on 06.03.2016.
  */
-public class MealDaoImpl implements MealDao {
+public class HashTableMealDaoImpl implements MealDao {
     private Map<Integer, UserMeal> hashTable;
     public static AtomicInteger maxId = new AtomicInteger(0);
 
-    public MealDaoImpl() {
+    public HashTableMealDaoImpl() {
         this.hashTable = new Hashtable<>();
         List<UserMeal> mealList = Arrays.asList(
                 new UserMeal(1, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
