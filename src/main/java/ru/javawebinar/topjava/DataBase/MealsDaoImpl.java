@@ -1,24 +1,20 @@
 package ru.javawebinar.topjava.DataBase;
 
 import ru.javawebinar.topjava.model.UserMeal;
-import ru.javawebinar.topjava.model.UserMealWithExceed;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ru.javawebinar.topjava.util.UserMealsUtil.createWithExceed;
-
 /**
  * Created by Brother on 06.03.2016.
  */
 public class MealsDaoImpl implements MealsDao {
-    private HashMap<Integer, UserMeal> hashMap;
+    private Map<Integer, UserMeal> hashMap;
 
     public MealsDaoImpl() {
-        this.hashMap = new HashMap<>();
+        this.hashMap = new Hashtable<>();
         List<UserMeal> mealList = Arrays.asList(
                 new UserMeal(1, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
                 new UserMeal(2, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
@@ -33,16 +29,8 @@ public class MealsDaoImpl implements MealsDao {
     }
 
     @Override
-    public List<UserMealWithExceed> findAll() {
-        Map<LocalDate, Integer> caloriesSumByDate = this.hashMap.values().stream()
-                .collect(
-                        Collectors.groupingBy(um -> um.getDateTime().toLocalDate(),
-                                Collectors.summingInt(UserMeal::getCalories))
-                );
-
-        return this.hashMap.values().stream()
-                .map(um -> createWithExceed(um, caloriesSumByDate.get(um.getDateTime().toLocalDate()) > 2000))
-                .collect(Collectors.toList());
+    public List<UserMeal> findAll() {
+        return this.hashMap.values().stream().collect(Collectors.toList());
     }
 
     @Override

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <html>
 <head>
@@ -18,20 +18,17 @@
     </thead>
 
     <c:forEach var="el" items="${list}">
+        <c:set var="color" value="green"/>
         <c:if test="${el.exceed}">
-            <tr style="color: red">
-                <td><c:out value="${el.dateTime}"/></td>
-                <td><c:out value="${el.description}"/></td>
-                <td><c:out value="${el.calories}"/></td>
-            </tr>
-       </c:if>
-        <c:if test="${!el.exceed}">
-            <tr style="color: green">
-                <td><c:out value="${el.dateTime}"/></td>
-                <td><c:out value="${el.description}"/></td>
-                <td><c:out value="${el.calories}"/></td>
-            </tr>
+            <c:set var="color" value="red"/>
         </c:if>
+
+        <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="both" />
+        <tr style="color: ${color}">
+            <td><javatime:format value="${el.dateTime}" style="MS" pattern="yyyy-M-dd H:mm"/></td>
+            <td><c:out value="${el.description}"/></td>
+            <td><c:out value="${el.calories}"/></td>
+        </tr>
     </c:forEach>
 </table>
 </body>

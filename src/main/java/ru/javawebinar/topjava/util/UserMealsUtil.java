@@ -60,6 +60,17 @@ public class UserMealsUtil {
         return mealExceeded;
     }
 
+    public static List<UserMealWithExceed> convertUserMealToUserMealWithExceeded(List<UserMeal> mealList, int caloriesPerDay){
+        Map<LocalDate, Integer> caloriesSumByDate = mealList.stream()
+                .collect(
+                        Collectors.groupingBy(um -> um.getDateTime().toLocalDate(),
+                                Collectors.summingInt(UserMeal::getCalories))
+                );
+
+        return mealList.stream()
+                .map(um -> createWithExceed(um, caloriesSumByDate.get(um.getDateTime().toLocalDate()) > caloriesPerDay))
+                .collect(Collectors.toList());
+    }
     public static UserMealWithExceed createWithExceed(UserMeal um, boolean exceeded) {
         return new UserMealWithExceed(um.getDateTime(), um.getDescription(), um.getCalories(), exceeded);
     }
