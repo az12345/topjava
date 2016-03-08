@@ -55,6 +55,6 @@ public class MealsDaoImpl implements MealsDao {
     }
 
     public static Integer getNewId(Set<Integer> keySet){
-        return keySet.stream().max(Comparator.naturalOrder()).get() + 1;
+        return keySet.parallelStream().max(Comparator.naturalOrder()).get() + 1;
     }
 }
