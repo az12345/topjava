@@ -35,16 +35,26 @@ public class MealsDaoImpl implements MealsDao {
 
     @Override
     public void update(UserMeal userMeal) {
-
+        if(!hashMap.isEmpty())
+            hashMap.replace(userMeal.getId(), userMeal);
     }
 
     @Override
-    public void create(UserMeal user) {
-
+    public void create(UserMeal userMeal) {
+        UserMeal newEl = new UserMeal(
+                getNewId(hashMap.keySet()),
+                userMeal.getDateTime(),
+                userMeal.getDescription(),
+                userMeal.getCalories());
+        hashMap.put(newEl.getId(), newEl);
     }
 
     @Override
     public void delete(Integer id) {
+        hashMap.remove(id);
+    }
 
+    public static Integer getNewId(Set<Integer> keySet){
+        return keySet.stream().max(Comparator.naturalOrder()).get() + 1;
     }
 }

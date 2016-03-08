@@ -71,6 +71,7 @@ public class UserMealsUtil {
                 .map(um -> createWithExceed(um, caloriesSumByDate.get(um.getDateTime().toLocalDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
+
     public static UserMealWithExceed createWithExceed(UserMeal um, boolean exceeded) {
         return new UserMealWithExceed(um.getDateTime(), um.getDescription(), um.getCalories(), exceeded);
     }
