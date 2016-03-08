@@ -26,15 +26,15 @@ public class MealDaoImpl implements MealDao {
                 new UserMeal(6, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
 
-        for(UserMeal el : mealList) {
-            hashTable.put(el.getId(), el);
+        for(UserMeal meal : mealList) {
+            hashTable.put(meal.getId(), meal);
             maxId.incrementAndGet();
         }
     }
 
     @Override
     public List<UserMeal> findAll() {
-        return this.hashTable.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(this.hashTable.values());
     }
 
     @Override
