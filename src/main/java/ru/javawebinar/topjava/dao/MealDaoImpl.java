@@ -1,20 +1,22 @@
-package ru.javawebinar.topjava.DataBase;
+package ru.javawebinar.topjava.dao;
 
 import ru.javawebinar.topjava.model.UserMeal;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
  * Created by Brother on 06.03.2016.
  */
-public class MealsDaoImpl implements MealsDao {
-    private Map<Integer, UserMeal> hashMap;
+public class MealDaoImpl implements MealDao {
+    private Map<Integer, UserMeal> hashTable;
+    public static AtomicInteger maxId = new AtomicInteger(0);
 
-    public MealsDaoImpl() {
-        this.hashMap = new Hashtable<>();
+    public MealDaoImpl() {
+        this.hashTable = new Hashtable<>();
         List<UserMeal> mealList = Arrays.asList(
                 new UserMeal(1, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
                 new UserMeal(2, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
@@ -24,37 +26,35 @@ public class MealsDaoImpl implements MealsDao {
                 new UserMeal(6, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
         );
 
-        for(UserMeal el : mealList)
-            hashMap.put(el.getId(), el);
+        for(UserMeal el : mealList) {
+            hashTable.put(el.getId(), el);
+            maxId.incrementAndGet();
+        }
     }
 
     @Override
     public List<UserMeal> findAll() {
-        return this.hashMap.values().stream().collect(Collectors.toList());
+        return this.hashTable.values().stream().collect(Collectors.toList());
     }
 
     @Override
     public void update(UserMeal userMeal) {
-        if(!hashMap.isEmpty())
-            hashMap.replace(userMeal.getId(), userMeal);
+        if(!hashTable.isEmpty())
+            hashTable.replace(userMeal.getId(), userMeal);
     }
 
     @Override
     public void create(UserMeal userMeal) {
         UserMeal newEl = new UserMeal(
-                getNewId(hashMap.keySet()),
+                maxId.incrementAndGet(),
                 userMeal.getDateTime(),
                 userMeal.getDescription(),
                 userMeal.getCalories());
-        hashMap.put(newEl.getId(), newEl);
+        hashTable.put(newEl.getId(), newEl);
     }
 
     @Override
     public void delete(Integer id) {
-        hashMap.remove(id);
-    }
-
-    public static Integer getNewId(Set<Integer> keySet){
-        return keySet.parallelStream().max(Comparator.naturalOrder()).get() + 1;
+        hashTable.remove(id);
     }
 }
