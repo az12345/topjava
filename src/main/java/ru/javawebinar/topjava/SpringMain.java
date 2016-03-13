@@ -13,7 +13,7 @@ import java.util.Arrays;
  * Date: 22.08.2014
  */
 public class SpringMain {
-    public static void main(String[] args) {
+    public static void main(String[] args1) {
         // java 7 Automatic resource management
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
             System.out.println(Arrays.toString(appCtx.getBeanDefinitionNames()));
