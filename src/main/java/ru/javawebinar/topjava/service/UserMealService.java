@@ -9,7 +9,7 @@ import java.util.List;
  * 15.06.2015.
  */
 public interface UserMealService {
-    public List<UserMeal> getAll();
+    public List<UserMeal> getAll(int userId);
     public void update(UserMeal userMeal);
     public UserMeal save(UserMeal userMeal);
     public void create(UserMeal userMeal);

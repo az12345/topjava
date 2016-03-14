@@ -3,8 +3,8 @@ package ru.javawebinar.topjava.web.meal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.LoggedUser;
+import ru.javawebinar.topjava.model.*;
 import ru.javawebinar.topjava.service.UserMealService;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public abstract class AbstractUserMealController {
 
     public List<UserMeal> getAll() {
         LOG.info("getAll");
-        return service.getAll();
+        return service.getAll(LoggedUser.id());
     }
 
     public UserMeal create(UserMeal userMeal) {

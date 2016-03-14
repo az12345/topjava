@@ -14,7 +14,7 @@ public class UserMealServiceImpl implements UserMealService {
     private UserMealRepository repository;
 
     @Override
-    public List<UserMeal> getAll() {
+    public List<UserMeal> getAll(int userId) {
         return null;
     }
 
