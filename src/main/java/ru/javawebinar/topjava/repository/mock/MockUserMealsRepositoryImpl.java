@@ -16,33 +16,21 @@ import java.util.List;
 public class MockUserMealsRepositoryImpl implements UserMealRepository {
     private static final Logger LOG = LoggerFactory.getLogger(MockUserRepositoryImpl.class);
     @Override
-    public UserMeal save(UserMeal userMeal) {
+    public UserMeal create(UserMeal userMeal) {
         LOG.info("save " + userMeal);
         return userMeal;
     }
 
     @Override
-    public UserMeal save(UserMeal userMeal, int userId) {
+    public UserMeal update(UserMeal userMeal, int userId) {
         LOG.info("save " + userMeal + " userId " + userId);
         return userMeal;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        LOG.info("delete " + id);
-        return true;
     }
 
     @Override
     public boolean delete(int id, int userId) {
         LOG.info("delete " + id + " userId " + userId);
         return true;
-    }
-
-    @Override
-    public UserMeal get(int id) {
-        LOG.info("get " + id);
-        return null;
     }
 
     @Override
