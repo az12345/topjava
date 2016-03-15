@@ -6,9 +6,7 @@ import java.time.LocalDateTime;
  * GKislin
  * 11.01.2015.
  */
-public class UserMeal {
-    private Integer id;
-
+public class UserMeal extends BaseEntity{
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -29,10 +27,6 @@ public class UserMeal {
         this.userId = userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -47,10 +41,6 @@ public class UserMeal {
 
     public Integer getId() {
         return id;
-    }
-
-    public boolean isNew() {
-        return id == null;
     }
 
     public int getUserId() {

@@ -10,13 +10,12 @@ import java.util.List;
  * 06.03.2015.
  */
 public interface UserMealRepository {
-    UserMeal save(UserMeal userMeal);
-    UserMeal save(UserMeal userMeal, int userId);
+    UserMeal create(UserMeal userMeal);
 
-    boolean delete(int id);
+    UserMeal update(UserMeal userMeal, int userId);
+
     boolean delete(int id, int userId);
 
-    UserMeal get(int id);
     UserMeal get(int id, int userId);
 
     List<UserMeal> getAll(int userId);

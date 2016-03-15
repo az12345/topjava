@@ -5,12 +5,11 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -23,11 +22,11 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        UserMealsUtil.MEAL_LIST.forEach(this::save);
+        UserMealsUtil.MEAL_LIST.forEach(this::create);
     }
 
     @Override
-    public UserMeal save(UserMeal userMeal) {
+    public UserMeal create(UserMeal userMeal) {
         if (userMeal.isNew()) {
             userMeal.setId(counter.incrementAndGet());
         }
@@ -36,17 +35,8 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public UserMeal save(UserMeal userMeal, int userId) {
-        if (userMeal.isNew()){
-            userMeal.setId(counter.incrementAndGet());
-            return repository.put(userMeal.getId(), userMeal);
-        }
+    public UserMeal update(UserMeal userMeal, int userId) {
         return userMeal.getUserId() == userId ? repository.put(userId, userMeal) : null;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return repository.remove(id, repository.get(id));
     }
 
     @Override
@@ -62,20 +52,15 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public UserMeal get(int id) {
-        return repository.get(id);
-    }
-
-    @Override
     public List<UserMeal> getAll(int userId) {
         List<UserMeal> list = new ArrayList<>(repository.values());
-        List<UserMeal> resultList = new ArrayList<>();
 
-        for(UserMeal userMeal : list){
-            if(userMeal.getUserId() == userId)
-                resultList.add(userMeal);
-        }
-        return resultList;
+        return list.stream().filter(um -> um.getUserId() == userId).sorted(new Comparator<UserMeal>() {
+            @Override
+            public int compare(UserMeal o1, UserMeal o2) {
+                return o1.getDateTime().compareTo(o2.getDateTime());
+            }
+        }).collect(Collectors.toList());
     }
 }
 
