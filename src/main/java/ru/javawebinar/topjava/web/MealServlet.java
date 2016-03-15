@@ -2,8 +2,9 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
-import ru.javawebinar.topjava.repository.mock.InMemoryUserMealRepositoryImpl;
+import ru.javawebinar.topjava.repository.InMemoryUserMealRepositoryImpl;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
@@ -34,13 +35,17 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
+
         UserMeal userMeal = new UserMeal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
-                Integer.valueOf(request.getParameter("calories")));
+                Integer.valueOf(request.getParameter("calories")),
+                LoggedUser.id());
+
         LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
         repository.save(userMeal);
         response.sendRedirect("meals");
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,7 +54,7 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             LOG.info("getAll");
             request.setAttribute("mealList",
-                    UserMealsUtil.getWithExceeded(repository.getAll(), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
+                    UserMealsUtil.getWithExceeded(repository.getAll(LoggedUser.id()), UserMealsUtil.DEFAULT_CALORIES_PER_DAY));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
         } else if (action.equals("delete")) {
             int id = getId(request);
@@ -58,7 +63,7 @@ public class MealServlet extends HttpServlet {
             response.sendRedirect("meals");
         } else {
             final UserMeal meal = action.equals("create") ?
-                    new UserMeal(LocalDateTime.now(), "", 1000) :
+                    new UserMeal(LocalDateTime.now(), "", 1000, LoggedUser.id()) :
                     repository.get(getId(request));
             request.setAttribute("meal", meal);
             request.getRequestDispatcher("mealEdit.jsp").forward(request, response);

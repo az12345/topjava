@@ -15,7 +15,7 @@ public class UserMeal {
 
     private final int calories;
 
-    private final int userId;
+    private final Integer userId;
 
     public UserMeal(LocalDateTime dateTime, String description, int calories, int userId) {
         this(null, dateTime, description, calories, userId);
@@ -29,7 +29,7 @@ public class UserMeal {
         this.userId = userId;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

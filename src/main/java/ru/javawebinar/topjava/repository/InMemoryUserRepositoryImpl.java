@@ -1,9 +1,6 @@
-package ru.javawebinar.topjava.repository.mock;
+package ru.javawebinar.topjava.repository;
 
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.model.UserMeal;
-import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.util.ArrayList;
 import java.util.List;

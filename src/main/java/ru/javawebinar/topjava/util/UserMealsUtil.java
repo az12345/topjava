@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.util;
 
+import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.web.meal.UserMealWithExceed;
 
@@ -17,12 +18,15 @@ import java.util.stream.Collectors;
  */
 public class UserMealsUtil {
     public static final List<UserMeal> MEAL_LIST = Arrays.asList(
-            new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-            new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-            new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500, LoggedUser.id()),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000, LoggedUser.id()),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500, LoggedUser.id()),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000, LoggedUser.id()),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500, LoggedUser.id()),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510, LoggedUser.id()),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1111, 2),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 700, 2),
+            new UserMeal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 800, 3)
     );
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
@@ -64,6 +68,24 @@ public class UserMealsUtil {
             }
         });
         return mealExceeded;
+    }
+
+    public static List<UserMealWithExceed> getFilteredDateAndTimeWithExceeded(Collection<UserMeal> mealList,
+                                                                              LocalDate startDate,
+                                                                              LocalTime startTime,
+                                                                              LocalDate endDate,
+                                                                              LocalTime endTime,
+                                                                              int caloriesPerDay) {
+        Map<LocalDate, Integer> caloriesSumByDate = mealList.stream()
+                .collect(
+                        Collectors.groupingBy(um -> um.getDateTime().toLocalDate(),
+                                Collectors.summingInt(UserMeal::getCalories))
+                );
+
+        return mealList.stream()
+                .filter(um -> TimeUtil.isBetweenDateAndTime(um.getDateTime(), startDate, startTime, endDate, endTime))
+                .map(um -> createWithExceed(um, caloriesSumByDate.get(um.getDateTime().toLocalDate()) > caloriesPerDay))
+                .collect(Collectors.toList());
     }
 
     public static UserMealWithExceed createWithExceed(UserMeal um, boolean exceeded) {

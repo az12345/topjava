@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.service;
 
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -10,8 +11,12 @@ import java.util.List;
  */
 public interface UserMealService {
     public List<UserMeal> getAll(int userId);
-    public void update(UserMeal userMeal);
+    public UserMeal get(int id);
+    public UserMeal get(int id, int userId) throws NotFoundException;
+    public UserMeal update(UserMeal userMeal);
+    public UserMeal update(UserMeal userMeal, int userId) throws NotFoundException;
     public UserMeal save(UserMeal userMeal);
-    public void create(UserMeal userMeal);
-    public void delete(Integer id);
+    public boolean delete(int id);
+    public boolean delete(int id, int userId) throws NotFoundException;
+
 }

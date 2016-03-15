@@ -1,11 +1,11 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.LoggedUser;
-import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -13,25 +13,21 @@ import java.util.List;
  * GKislin
  * 06.03.2015.
  */
+@Controller
 public class UserMealRestController extends AbstractUserMealController{
 
     public List<UserMealWithExceed> getAllWithExceeded(){
         return UserMealsUtil.getWithExceeded(super.getAll(), LoggedUser.getCaloriesPerDay());
     }
-    LocalTime startTime, LocalTime endTime, int caloriesPerDay)
 
-    public List<UserMealWithExceed> getAllFilteredWithExceededTime(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime){
-        return UserMealsUtil.getFilteredWithExceeded(super.getAll(), )
+    public List<UserMealWithExceed> getAllFilteredDateAndTimeWithExceeded(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime){
+        return UserMealsUtil.getFilteredDateAndTimeWithExceeded(
+                super.getAll(), startDate, startTime, endDate, endTime, LoggedUser.getCaloriesPerDay());
     }
 
     @Override
-    public User get(int id) {
+    public UserMeal get(int id) {
         return super.get(id);
-    }
-
-    @Override
-    public User create(User user) {
-        return super.create(user);
     }
 
     @Override
@@ -40,12 +36,12 @@ public class UserMealRestController extends AbstractUserMealController{
     }
 
     @Override
-    public void update(User user, int id) {
-        super.update(user, id);
+    public UserMeal create(UserMeal userMeal) {
+        return super.create(userMeal);
     }
 
     @Override
-    public User getByMail(String email) {
-        return super.getByMail(email);
+    public void update(UserMeal userMeal, int id) {
+        super.update(userMeal, id);
     }
 }

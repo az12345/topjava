@@ -23,20 +23,25 @@ public abstract class AbstractUserMealController {
         return service.getAll(LoggedUser.id());
     }
 
+    public UserMeal get(int id) {
+        LOG.info("get " + id);
+        return service.get(id, LoggedUser.id());
+    }
+
+    public void delete(int id) {
+        LOG.info("delete " + id);
+        service.delete(id, LoggedUser.id());
+    }
+
     public UserMeal create(UserMeal userMeal) {
         userMeal.setId(null);
         LOG.info("create " + userMeal);
         return service.save(userMeal);
     }
 
-    public void delete(int id) {
-        LOG.info("delete " + id);
-        service.delete(id);
-    }
-
     public void update(UserMeal userMeal, int id) {
         userMeal.setId(id);
         LOG.info("update " + userMeal);
-        service.update(userMeal);
+        service.update(userMeal, LoggedUser.id());
     }
 }
