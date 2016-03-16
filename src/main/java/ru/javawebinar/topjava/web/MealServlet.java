@@ -43,7 +43,7 @@ public class MealServlet extends HttpServlet {
                 LoggedUser.id());
 
         LOG.info(userMeal.isNew() ? "Create {}" : "Update {}", userMeal);
-        repository.save(userMeal);
+        repository.create(userMeal);
         response.sendRedirect("meals");
 
     }
@@ -59,14 +59,14 @@ public class MealServlet extends HttpServlet {
         } else if (action.equals("delete")) {
             int id = getId(request);
             LOG.info("Delete {}", id);
-            repository.delete(id);
+           // repository.delete(id);
             response.sendRedirect("meals");
         } else {
-            final UserMeal meal = action.equals("create") ?
-                    new UserMeal(LocalDateTime.now(), "", 1000, LoggedUser.id()) :
-                    repository.get(getId(request));
-            request.setAttribute("meal", meal);
-            request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
+            //final UserMeal meal = action.equals("create") ?
+                    //new UserMeal(LocalDateTime.now(), "", 1000, LoggedUser.id()) :
+                    //repository.get(getId(request));
+            //request.setAttribute("meal", meal);
+            //request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
         }
     }
 

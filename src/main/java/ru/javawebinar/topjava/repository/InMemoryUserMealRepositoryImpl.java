@@ -38,13 +38,21 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal update(UserMeal userMeal, int userId) {
-        return userMeal.getUserId() == userId ? repository.put(userId, userMeal) : null;
+        try{
+            return userMeal.getUserId() == userId ? repository.put(userId, userMeal) : null;
+        } catch (NullPointerException e){
+            return null;
+        }
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        UserMeal userMeal = repository.get(id);
-        return userMeal.getUserId() == userId ? repository.remove(id, userMeal) : false;
+        try {
+            UserMeal userMeal = repository.get(id);
+            return userMeal.getUserId() == userId ? repository.remove(id, userMeal) : false;
+        } catch (NullPointerException ex){
+            return false;
+        }
     }
 
     @Override

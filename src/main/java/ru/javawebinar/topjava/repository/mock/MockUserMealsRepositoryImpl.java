@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,4 +47,9 @@ public class MockUserMealsRepositoryImpl implements UserMealRepository {
         return Collections.emptyList();
     }
 
+    @Override
+    public List<UserMeal> getAll(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        LOG.info("getAllFilterDateAndTime");
+        return Collections.emptyList();
+    }
 }
