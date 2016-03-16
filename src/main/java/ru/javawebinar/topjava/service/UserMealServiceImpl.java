@@ -2,8 +2,10 @@ package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
+import ru.javawebinar.topjava.to.UserMealWithExceed;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -21,13 +23,13 @@ public class UserMealServiceImpl implements UserMealService {
     private UserMealRepository repository;
 
     @Override
-    public List<UserMeal> getAll(int userId) {
-        return repository.getAll(userId);
+    public List<UserMealWithExceed> getAll(LoggedUser loggedUser) {
+        return repository.getAll(loggedUser);
     }
 
     @Override
-    public List<UserMeal> getAll(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        return repository.getAll(userId, startDate, startTime, endDate, endTime);
+    public List<UserMealWithExceed> getAll(LoggedUser loggedUser, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return repository.getAllFilterDateAndTime(loggedUser, startDate, startTime, endDate, endTime);
     }
 
     @Override

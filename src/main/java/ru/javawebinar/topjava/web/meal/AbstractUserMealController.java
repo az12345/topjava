@@ -18,18 +18,18 @@ import java.util.List;
  */
 public abstract class AbstractUserMealController {
     protected final Logger LOG = LoggerFactory.getLogger(getClass());
-
+    LoggedUser loggedUser = new LoggedUser();
     @Autowired
     private UserMealService service;
 
     public List<UserMealWithExceed> getAll() {
         LOG.info("getAll");
-        return UserMealsUtil.getWithExceeded(service.getAll(LoggedUser.id()), LoggedUser.getCaloriesPerDay());
+        return service.getAll(loggedUser);
     }
 
     public List<UserMealWithExceed> getAll(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        return UserMealsUtil.getWithExceeded(
-                service.getAll(LoggedUser.id(), startDate, startTime, endDate, endTime), LoggedUser.getCaloriesPerDay());
+        LOG.info("getAllFilteredWithDateAndTime");
+        return service.getAll(loggedUser, startDate, startTime, endDate, endTime);
     }
 
     public UserMeal get(int id) {

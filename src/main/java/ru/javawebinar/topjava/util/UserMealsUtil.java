@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.LoggedUser;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.to.UserMealWithExceed;
 
@@ -70,18 +71,24 @@ public class UserMealsUtil {
         return mealExceeded;
     }
 
-    public static List<UserMeal> getFilteredUserMeal(Collection<UserMeal> mealList,
-                                                     int userId,
+    public static List<UserMealWithExceed> getFilteredWithExceededDateAndTime(Collection<UserMeal> mealList,
+                                                     LoggedUser user,
                                                      LocalDate startDate,
                                                      LocalTime startTime,
                                                      LocalDate endDate,
                                                      LocalTime endTime) {
+        Map<LocalDate, Integer> caloriesSumByDate = mealList.stream()
+                .collect(
+                        Collectors.groupingBy(um -> um.getDateTime().toLocalDate(),
+                                Collectors.summingInt(UserMeal::getCalories))
+                );
+
         return mealList.stream()
                 .filter(um -> TimeUtil.isBetweenDateAndTime(um.getDateTime(), startDate, startTime, endDate, endTime))
-                .filter(um -> um.getUserId() == userId)
-                .sorted(new Comparator<UserMeal>() {
+                .map(um -> createWithExceed(um, caloriesSumByDate.get(um.getDateTime().toLocalDate()) > user.getCaloriesPerDay()))
+                .sorted(new Comparator<UserMealWithExceed>() {
                     @Override
-                    public int compare(UserMeal o1, UserMeal o2) {
+                    public int compare(UserMealWithExceed o1, UserMealWithExceed o2) {
                         return o1.getDateTime().compareTo(o2.getDateTime());
                     }
                 }).collect(Collectors.toList());

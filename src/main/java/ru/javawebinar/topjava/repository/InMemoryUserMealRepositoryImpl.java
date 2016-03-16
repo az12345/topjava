@@ -1,7 +1,10 @@
 package ru.javawebinar.topjava.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.LoggedUser;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.to.UserMealWithExceed;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.time.LocalDate;
@@ -59,18 +62,20 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
-    public List<UserMeal> getAll(int userId) {
-        return UserMealsUtil.getFilteredUserMeal(new ArrayList<>(repository.values()), userId);
+    public List<UserMealWithExceed> getAll(LoggedUser loggedUser) {
+        List<UserMeal> meals = UserMealsUtil.getFilteredUserMeal(new ArrayList<>(repository.values()), loggedUser.id());
+        return UserMealsUtil.getWithExceeded(meals, loggedUser.getCaloriesPerDay());
     }
 
     @Override
-    public List<UserMeal> getAll(int userId,
+    public List<UserMealWithExceed> getAllFilterDateAndTime(LoggedUser loggedUser,
                                  LocalDate startDate,
                                  LocalTime startTime,
                                  LocalDate endDate,
                                  LocalTime endTime) {
-        return UserMealsUtil.getFilteredUserMeal(new ArrayList<>(repository.values()),
-                userId, startDate, startTime, endDate, endTime);
+        List<UserMeal> meals = UserMealsUtil.getFilteredUserMeal(new ArrayList<>(repository.values()), loggedUser.id());
+        return UserMealsUtil.getFilteredWithExceededDateAndTime(
+                meals, loggedUser, startDate, startTime, endDate, endTime);
     }
 }
 
