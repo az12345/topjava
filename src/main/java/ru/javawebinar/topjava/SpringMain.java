@@ -22,6 +22,9 @@ public class SpringMain {
             System.out.println(adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN)));
             UserMealRestController userMealRestController = appCtx.getBean(UserMealRestController.class);
             System.out.println(userMealRestController.getAllWithExceeded());
+            userMealRestController.delete(1);
+            System.out.println(userMealRestController.getAllWithExceeded());
+            userMealRestController.delete(8);
         }
     }
 }

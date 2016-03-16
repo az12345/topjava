@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -53,14 +55,17 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        List<UserMeal> list = new ArrayList<>(repository.values());
+        return UserMealsUtil.getFilteredUserMeal(new ArrayList<>(repository.values()), userId);
+    }
 
-        return list.stream().filter(um -> um.getUserId() == userId).sorted(new Comparator<UserMeal>() {
-            @Override
-            public int compare(UserMeal o1, UserMeal o2) {
-                return o1.getDateTime().compareTo(o2.getDateTime());
-            }
-        }).collect(Collectors.toList());
+    @Override
+    public List<UserMeal> getAll(int userId,
+                                 LocalDate startDate,
+                                 LocalTime startTime,
+                                 LocalDate endDate,
+                                 LocalTime endTime) {
+        return UserMealsUtil.getFilteredUserMeal(new ArrayList<>(repository.values()),
+                userId, startDate, startTime, endDate, endTime);
     }
 }
 

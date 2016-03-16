@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.*;
 import ru.javawebinar.topjava.service.UserMealService;
+import ru.javawebinar.topjava.to.UserMealWithExceed;
+import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -18,9 +22,14 @@ public abstract class AbstractUserMealController {
     @Autowired
     private UserMealService service;
 
-    public List<UserMeal> getAll() {
+    public List<UserMealWithExceed> getAll() {
         LOG.info("getAll");
-        return service.getAll(LoggedUser.id());
+        return UserMealsUtil.getWithExceeded(service.getAll(LoggedUser.id()), LoggedUser.getCaloriesPerDay());
+    }
+
+    public List<UserMealWithExceed> getAll(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return UserMealsUtil.getWithExceeded(
+                service.getAll(LoggedUser.id(), startDate, startTime, endDate, endTime), LoggedUser.getCaloriesPerDay());
     }
 
     public UserMeal get(int id) {
@@ -36,7 +45,7 @@ public abstract class AbstractUserMealController {
     public UserMeal create(UserMeal userMeal) {
         userMeal.setId(null);
         LOG.info("create " + userMeal);
-        return service.save(userMeal);
+        return service.create(userMeal);
     }
 
     public void update(UserMeal userMeal, int id) {

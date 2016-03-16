@@ -7,6 +7,8 @@ import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -24,8 +26,8 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     @Override
-    public UserMeal get(int id) throws NotFoundException {
-        return ExceptionUtil.check(repository.get(id), id);
+    public List<UserMeal> getAll(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return repository.getAll(userId, startDate, startTime, endDate, endTime);
     }
 
     @Override
@@ -34,24 +36,13 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     @Override
-    public UserMeal update(UserMeal userMeal) {
-        return repository.save(userMeal);
-    }
-
-    @Override
     public UserMeal update(UserMeal userMeal, int userId)  throws NotFoundException {
-        return ExceptionUtil.check(repository.save(userMeal, userId), userMeal.getId());
+        return ExceptionUtil.check(repository.update(userMeal, userId), userMeal.getId());
     }
 
     @Override
-    public UserMeal save(UserMeal userMeal) {
-        return repository.save(userMeal);
-    }
-
-    @Override
-    public boolean delete(int id) throws NotFoundException{
-        ExceptionUtil.check(repository.delete(id), id);
-        return true;
+    public UserMeal create(UserMeal userMeal) {
+        return repository.create(userMeal);
     }
 
     @Override

@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.meal;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.to.UserMealWithExceed;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import java.time.LocalDate;
@@ -17,13 +18,14 @@ import java.util.List;
 @Controller
 public class UserMealRestController extends AbstractUserMealController{
 
-    public List<UserMealWithExceed> getAllWithExceeded(){
-        return UserMealsUtil.getWithExceeded(super.getAll(), LoggedUser.getCaloriesPerDay());
+    @Override
+    public List<UserMealWithExceed> getAll(){
+        return super.getAll();
     }
 
-    public List<UserMealWithExceed> getAllFilteredDateAndTimeWithExceeded(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime){
-        return UserMealsUtil.getFilteredDateAndTimeWithExceeded(
-                super.getAll(), startDate, startTime, endDate, endTime, LoggedUser.getCaloriesPerDay());
+    @Override
+    public List<UserMealWithExceed> getAll(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime){
+        return super.getAll(startDate, startTime, endDate, endTime);
     }
 
     @Override
