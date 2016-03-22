@@ -102,7 +102,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE date_time BETWEEN ? AND ? ORDER BY date_time",
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? AND date_time BETWEEN ? AND ? ORDER BY date_time",
                 new RowMapper<UserMeal>() {
                     @Override
                     public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -113,6 +113,6 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
                                 resultSet.getInt(5));
                         return userMeal;
                     }
-                }, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+                }, userId, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
     }
 }
