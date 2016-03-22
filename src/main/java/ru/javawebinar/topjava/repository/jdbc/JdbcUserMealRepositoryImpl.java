@@ -15,6 +15,7 @@ import ru.javawebinar.topjava.repository.UserMealRepository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -101,6 +102,17 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM meals WHERE date_time BETWEEN ? AND ? ORDER BY date_time",
+                new RowMapper<UserMeal>() {
+                    @Override
+                    public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
+                        UserMeal userMeal = new UserMeal(
+                                resultSet.getInt(1),
+                                resultSet.getTimestamp(3).toLocalDateTime(),
+                                resultSet.getString(4),
+                                resultSet.getInt(5));
+                        return userMeal;
+                    }
+                }, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
     }
 }
