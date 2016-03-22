@@ -88,7 +88,18 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
     @Override
     public List<UserMeal> getAll(int userId) {
         List<UserMeal> meals = jdbcTemplate.query("SELECT * FROM meals", ROW_MAPPER);
-        return jdbcTemplate.query("SELECT * FROM meals", ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM meals",
+                new RowMapper<UserMeal>() {
+                    @Override
+                    public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
+                        UserMeal userMeal = new UserMeal(
+                                resultSet.getInt(1),
+                                resultSet.getTimestamp(3).toLocalDateTime(),
+                                resultSet.getString(4),
+                                resultSet.getInt(5));
+                        return userMeal;
+                    }
+                });
     }
 
     @Override
