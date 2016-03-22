@@ -26,7 +26,7 @@ public class SpringMain {
             System.out.println();
 
             UserMealRestController mealController = appCtx.getBean(UserMealRestController.class);
-            mealController.get(1);
+            mealController.get(100000);
             List<UserMealWithExceed> filteredMealsWithExceeded =
                     mealController.getBetween(
                             LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
