@@ -26,8 +26,6 @@ import java.util.List;
 @Repository
 public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
-   private static final BeanPropertyRowMapper<UserMeal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(UserMeal.class);
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -87,8 +85,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        List<UserMeal> meals = jdbcTemplate.query("SELECT * FROM meals", ROW_MAPPER);
-        return jdbcTemplate.query("SELECT * FROM meals",
+        return jdbcTemplate.query("SELECT * FROM meals ORDER BY date_time WHERE user_id=?",
                 new RowMapper<UserMeal>() {
                     @Override
                     public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -99,7 +96,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
                                 resultSet.getInt(5));
                         return userMeal;
                     }
-                });
+                }, userId);
     }
 
     @Override
