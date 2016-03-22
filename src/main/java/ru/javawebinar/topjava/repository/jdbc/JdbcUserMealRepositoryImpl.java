@@ -85,7 +85,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals ORDER BY date_time WHERE user_id=?",
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time",
                 new RowMapper<UserMeal>() {
                     @Override
                     public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
