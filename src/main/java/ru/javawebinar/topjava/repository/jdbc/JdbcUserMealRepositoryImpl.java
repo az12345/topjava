@@ -64,12 +64,12 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        return jdbcTemplate.update("DELETE FROM meals WHERE id=?", id) != 0;
+        return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", id, userId) != 0;
     }
 
     @Override
     public UserMeal get(int id, int userId) {
-        List<UserMeal> meal = jdbcTemplate.query("SELECT * FROM meals WHERE id=?",
+        List<UserMeal> meal = jdbcTemplate.query("SELECT * FROM meals WHERE id=? AND user_id=?",
                 new RowMapper<UserMeal>() {
                     @Override
                     public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -80,7 +80,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
                                 resultSet.getInt(5));
                         return userMeal;
                     }
-                }, id);
+                }, id, userId);
         return DataAccessUtils.singleResult(meal);
     }
 
