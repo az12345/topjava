@@ -31,6 +31,10 @@ public class SpringMain {
             UserMeal userMeal = mealController.get(100000);
             System.out.println(userMeal);
 
+            userMeal.setCalories(3000);
+            userMeal.setId(100006);
+            mealController.update(userMeal, userMeal.getId());
+
             List<UserMealWithExceed> meals = mealController.getAll();
             System.out.println(meals);
 

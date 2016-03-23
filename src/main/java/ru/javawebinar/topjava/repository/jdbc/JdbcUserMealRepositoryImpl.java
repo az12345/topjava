@@ -29,12 +29,11 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
     private static final BeanPropertyRowMapper<UserMeal> ROW_MAPPER = new BeanPropertyRowMapper<UserMeal>() {
         @Override
         public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
-            UserMeal userMeal = new UserMeal(
+            return new UserMeal(
                     resultSet.getInt(1),
                     resultSet.getTimestamp(3).toLocalDateTime(),
                     resultSet.getString(4),
                     resultSet.getInt(5));
-            return userMeal;
         }
     };
 
@@ -67,7 +66,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
             userMeal.setId(newKey.intValue());
         } else {
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET date_time=:date_time, description:=description, calories:=calories, " +
+                    "UPDATE meals SET date_time=:date_time, description=:description, calories=:calories, " +
                             "user_id=:user_id WHERE id=:id AND user_id=:user_id", map);
         }
         return userMeal;
