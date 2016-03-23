@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
@@ -26,6 +27,18 @@ import java.util.List;
 
 @Repository
 public class JdbcUserMealRepositoryImpl implements UserMealRepository {
+
+    private static final BeanPropertyRowMapper<UserMeal> ROW_MAPPER = new BeanPropertyRowMapper<UserMeal>() {
+        @Override
+        public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
+            UserMeal userMeal = new UserMeal(
+                    resultSet.getInt(1),
+                    resultSet.getTimestamp(3).toLocalDateTime(),
+                    resultSet.getString(4),
+                    resultSet.getInt(5));
+            return userMeal;
+        }
+    };
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -70,49 +83,19 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
     @Override
     public UserMeal get(int id, int userId) {
         List<UserMeal> meal = jdbcTemplate.query("SELECT * FROM meals WHERE id=? AND user_id=?",
-                new RowMapper<UserMeal>() {
-                    @Override
-                    public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
-                        UserMeal userMeal = new UserMeal(
-                                resultSet.getInt(1),
-                                resultSet.getTimestamp(3).toLocalDateTime(),
-                                resultSet.getString(4),
-                                resultSet.getInt(5));
-                        return userMeal;
-                    }
-                }, id, userId);
+                ROW_MAPPER, id, userId);
         return DataAccessUtils.singleResult(meal);
     }
 
     @Override
     public List<UserMeal> getAll(int userId) {
         return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY date_time",
-                new RowMapper<UserMeal>() {
-                    @Override
-                    public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
-                        UserMeal userMeal = new UserMeal(
-                                resultSet.getInt(1),
-                                resultSet.getTimestamp(3).toLocalDateTime(),
-                                resultSet.getString(4),
-                                resultSet.getInt(5));
-                        return userMeal;
-                    }
-                }, userId);
+                ROW_MAPPER, userId);
     }
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? AND date_time BETWEEN ? AND ? ORDER BY date_time",
-                new RowMapper<UserMeal>() {
-                    @Override
-                    public UserMeal mapRow(ResultSet resultSet, int i) throws SQLException {
-                        UserMeal userMeal = new UserMeal(
-                                resultSet.getInt(1),
-                                resultSet.getTimestamp(3).toLocalDateTime(),
-                                resultSet.getString(4),
-                                resultSet.getInt(5));
-                        return userMeal;
-                    }
-                }, userId, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+                ROW_MAPPER, userId, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
     }
 }

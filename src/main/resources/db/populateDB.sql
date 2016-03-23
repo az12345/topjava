@@ -15,28 +15,28 @@ INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_ADMIN', 100001);
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100000, 100001, '2015-05-30 10:23:42', 'Завтрак', '500');
+VALUES (100000, 100000, '2015-05-30 10:23:42', 'Завтрак', '500');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100001, 100001, '2015-05-30 13:23:42', 'Обед', '1000');
+VALUES (100001, 100000, '2015-05-30 13:23:42', 'Обед', '1000');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100002, 100001, '2015-05-30 20:23:42', 'Ужин', '500');
+VALUES (100002, 100000, '2015-05-30 20:23:42', 'Ужин', '500');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100003, 100001, '2015-05-31 10:23:42', 'Завтрак', '1000');
+VALUES (100003, 100000, '2015-05-31 10:23:42', 'Завтрак', '1000');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100004, 100001, '2015-05-31 13:23:42', 'Обед', '500');
+VALUES (100004, 100000, '2015-05-31 13:23:42', 'Обед', '500');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100005, 100001, '2015-05-31 20:23:42', 'Ужин', '510');
+VALUES (100005, 100000, '2015-05-31 20:23:42', 'Ужин', '510');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100006, 100000, '2015-05-31 10:23:42', 'Завтрак', '1111');
+VALUES (100006, 100001, '2015-05-31 10:23:42', 'Завтрак', '1111');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100007, 100000, '2015-05-31 13:23:42', 'Обед', '700');
+VALUES (100007, 100001, '2015-05-31 13:23:42', 'Обед', '700');
 
 INSERT INTO meals (id, user_id, date_time, description, calories)
-VALUES (100008, 100000, '2015-05-31 20:23:42', 'Ужин', '800');
+VALUES (100008, 100001, '2015-05-31 20:23:42', 'Ужин', '800');
