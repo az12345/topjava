@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
@@ -70,7 +68,7 @@ public class JdbcUserMealRepositoryImpl implements UserMealRepository {
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE meals SET date_time=:date_time, description:=description, calories:=calories, " +
-                            "user_id=:user_id WHERE id=:id", map);
+                            "user_id=:user_id WHERE id=:id AND user_id=:user_id", map);
         }
         return userMeal;
     }
