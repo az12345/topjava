@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +16,9 @@ import java.util.List;
 
 @Repository
 public class JpaUserMealRepositoryImpl implements UserMealRepository {
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public UserMeal save(UserMeal userMeal, int userId) {
@@ -27,6 +32,8 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
 
     @Override
     public UserMeal get(int id, int userId) {
+        UserMeal meal = em.find(UserMeal.class, id);
+        System.out.println(meal);
         return null;
     }
 
