@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.repository.jpa;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
@@ -31,7 +33,9 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
     }
 
     @Override
+    @Transactional
     public UserMeal get(int id, int userId) {
+        User ref = em.getReference(User.class, userId);
         UserMeal meal = em.find(UserMeal.class, id);
         System.out.println(meal);
         return null;
