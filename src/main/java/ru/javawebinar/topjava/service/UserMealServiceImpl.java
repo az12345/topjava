@@ -17,7 +17,6 @@ import java.util.Collection;
 @Service
 public class UserMealServiceImpl implements UserMealService {
 
-    @Qualifier("jpaUserMealRepositoryImpl")
     @Autowired
     private UserMealRepository repository;
 
