@@ -23,31 +23,49 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
     private EntityManager em;
 
     @Override
+    @Transactional
     public UserMeal save(UserMeal userMeal, int userId) {
+        User ref = em.getReference(User.class, userId);
+        if(userMeal.isNew()){
+            userMeal.setUser(ref);
+            em.persist(userMeal);
+            return userMeal;
+        } else {
+            if(ref.getId() == userId){
+                userMeal.setUser(ref);
+                return em.merge(userMeal);
+            }
+        }
         return null;
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
-        return false;
+        return em.createNamedQuery(UserMeal.DELETE)
+                .setParameter("id", id)
+                .setParameter("userId", userId)
+                .executeUpdate() != 0;
     }
 
     @Override
     @Transactional
     public UserMeal get(int id, int userId) {
-        User ref = em.getReference(User.class, userId);
-        UserMeal meal = em.find(UserMeal.class, id);
-        System.out.println(meal);
-        return null;
+        return (UserMeal) em.createNamedQuery(UserMeal.GET)
+                .setParameter("id", id)
+                .setParameter("userId", userId).getSingleResult();
     }
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        return null;
+        return em.createNamedQuery(UserMeal.ALL_SORTED, UserMeal.class).setParameter("userId", userId).getResultList();
     }
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+        return em.createNamedQuery(UserMeal.ALL_BETWEEN, UserMeal.class)
+                .setParameter("userId", userId)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate).getResultList();
     }
 }
