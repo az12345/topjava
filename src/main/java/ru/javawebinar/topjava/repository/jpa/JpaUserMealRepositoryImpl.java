@@ -34,6 +34,7 @@ public class JpaUserMealRepositoryImpl implements UserMealRepository {
             return em.createNamedQuery(UserMeal.UPDATE)
                     .setParameter("calories", userMeal.getCalories())
                     .setParameter("description", userMeal.getDescription())
+                    .setParameter("id", userMeal.getId())
                     .setParameter("userId", userId)
                     .executeUpdate() != 0 ? userMeal : null;
         }

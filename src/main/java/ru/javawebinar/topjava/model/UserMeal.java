@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
         @NamedQuery(name = UserMeal.ALL_BETWEEN,
                 query = "SELECT um FROM UserMeal um WHERE um.user.id=:userId AND um.dateTime BETWEEN :startDate AND :endDate ORDER BY um.dateTime DESC"),
         @NamedQuery(name = UserMeal.UPDATE, query = "UPDATE UserMeal um" +
-                " SET um.calories=:calories, um.description=:description WHERE um.user.id=:userId"),
+                " SET um.calories=:calories, um.description=:description WHERE um.id=:id AND um.user.id=:userId"),
 })
 
 @Entity
