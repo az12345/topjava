@@ -21,6 +21,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -34,25 +35,35 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserMealServiceTest {
-    private static String watchedLog;
+    private static LocalDateTime startTestTime;
+    private static LocalDateTime endTestTime;
 
     @Rule
     public TestRule watchman = new TestWatcher(){
         @Override
         protected void starting(Description description) {
-            watchedLog = "\n==================================\n" +
-                    "start test:  " + LocalDateTime.now() +
-                    "\n==================================\n";
+            startTestTime = LocalDateTime.now();
+        }
+
+        @Override
+        protected void finished(Description description) {
+            endTestTime = LocalDateTime.now();
+            System.out.println("========================================\n" +
+                    " test time:" + ChronoUnit.MILLIS.between(startTestTime, endTestTime) + " ms" +
+                    "\n========================================\n");
+        }
+
+        @Override
+        protected void failed(Throwable e, Description description) {
+            System.out.println("========================================\n" +
+                    "EXCEPTION: " + description.getDisplayName() + " " + e.getClass().getSimpleName() +
+                    "\n========================================\n");
         }
     };
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Before
-    public void after(){
-        System.out.println(watchedLog);
-    }
     @Autowired
     protected UserMealService service;
 
@@ -107,12 +118,5 @@ public class UserMealServiceTest {
     public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
-    }
-
-    @Test
-    public void throwsException() {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("happened");
-        throw new NullPointerException("What happened?");
     }
 }
