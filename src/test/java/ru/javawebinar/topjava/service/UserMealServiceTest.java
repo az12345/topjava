@@ -56,7 +56,7 @@ public class UserMealServiceTest {
         @Override
         protected void failed(Throwable e, Description description) {
             System.out.println("========================================\n" +
-                    "EXCEPTION: " + description.getDisplayName() + " " + e.getClass().getSimpleName() +
+                    "EXCEPTION: " + description.getDisplayName() + " " + e.getMessage() +
                     "\n========================================\n");
         }
     };
