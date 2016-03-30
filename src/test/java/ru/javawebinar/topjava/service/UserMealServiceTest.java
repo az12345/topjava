@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -39,11 +40,14 @@ public class UserMealServiceTest {
     public TestRule watchman = new TestWatcher(){
         @Override
         protected void starting(Description description) {
-            watchedLog = "start test:  " +
-                    "\n=============================\n"
-                    + LocalDateTime.now();
+            watchedLog = "\n==================================\n" +
+                    "start test:  " + LocalDateTime.now() +
+                    "\n==================================\n";
         }
     };
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void after(){
@@ -103,5 +107,12 @@ public class UserMealServiceTest {
     public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
                 service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
+    }
+
+    @Test
+    public void throwsException() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("happened");
+        throw new NullPointerException("What happened?");
     }
 }
