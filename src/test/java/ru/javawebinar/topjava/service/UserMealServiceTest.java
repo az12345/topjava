@@ -1,6 +1,11 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,6 +17,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 
@@ -26,7 +32,20 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserMealServiceTest {
+    private static String watchedLog;
 
+    @Rule
+    public TestRule watchman = new TestWatcher(){
+        @Override
+        protected void starting(Description description) {
+            watchedLog = "start test:  " + LocalDateTime.now();
+        }
+    };
+
+    @After
+    public void after(){
+        System.out.println(watchedLog);
+    }
     @Autowired
     protected UserMealService service;
 
