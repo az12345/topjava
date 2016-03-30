@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.service;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -38,11 +39,13 @@ public class UserMealServiceTest {
     public TestRule watchman = new TestWatcher(){
         @Override
         protected void starting(Description description) {
-            watchedLog = "start test:  " + LocalDateTime.now();
+            watchedLog = "start test:  " +
+                    "\n=============================\n"
+                    + LocalDateTime.now();
         }
     };
 
-    @After
+    @Before
     public void after(){
         System.out.println(watchedLog);
     }
