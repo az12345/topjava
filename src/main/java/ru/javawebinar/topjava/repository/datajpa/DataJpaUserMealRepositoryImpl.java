@@ -1,8 +1,6 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 
@@ -14,45 +12,29 @@ import java.util.List;
  * 27.03.2015.
  */
 @Repository
-public class DataJpaUserMealRepositoryImpl implements UserMealRepository {
-    @Autowired
-    private ProxyUserMealRepository proxy;
-
-    @Autowired
-    private ProxyUserRepository userProxy;
-
+public class DataJpaUserMealRepositoryImpl implements UserMealRepository{
     @Override
-    @Transactional
     public UserMeal save(UserMeal userMeal, int userId) {
-        if (!userMeal.isNew() && get(userMeal.getId(), userId) == null) {
-            return null;
-        }
-        userMeal.setUser(userProxy.getOne(userId));
-        return proxy.save(userMeal);
+        return null;
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return proxy.delete(id, userId) != 0;
+        return false;
     }
 
     @Override
     public UserMeal get(int id, int userId) {
-        return proxy.get(id, userId);
+        return null;
     }
 
     @Override
     public List<UserMeal> getAll(int userId) {
-        return proxy.getAll(userId);
+        return null;
     }
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return proxy.getBetween(startDate, endDate, userId);
-    }
-
-    @Override
-    public UserMeal getWithUser(Integer id, Integer userId) {
-        return proxy.getWithUser(id, userId);
+        return null;
     }
 }
