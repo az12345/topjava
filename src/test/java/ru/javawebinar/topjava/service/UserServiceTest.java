@@ -22,9 +22,20 @@ import java.util.Collections;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public class UserServiceTest {
+
+public abstract class UserServiceTest extends BaseTestClass {
     @Autowired
     protected UserService service;
+
+    @Override
+    public void testDeleteNotFound() throws Exception {
+
+    }
+
+    @Override
+    public void testNotFoundUpdate() throws Exception {
+
+    }
 
     @Before
     public void setUp() throws Exception {

@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.data.annotation.ReadOnlyProperty;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.model.UserMeal;
 
-import javax.persistence.NamedQuery;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,14 +18,12 @@ import java.util.List;
 public interface ProxyUserMealRepository extends JpaRepository<UserMeal, Integer> {
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Query("SELECT um FROM UserMeal um WHERE um.id=:id AND um.user.id=:userId")
-    @ReadOnlyProperty
     UserMeal findOne(@Param("id") int id, @Param("userId") int userId);
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Query("SELECT um FROM UserMeal um WHERE um.user.id=:userId ORDER BY um.dateTime DESC")
-    @ReadOnlyProperty
     List<UserMeal> findAll(@Param("userId") int userId);
 
     @Transactional
@@ -43,7 +39,7 @@ public interface ProxyUserMealRepository extends JpaRepository<UserMeal, Integer
     @Query("select u FROM User u WHERE u.id=:userId")
     User findUser (@Param("userId") int userID);
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Query("SELECT m FROM UserMeal m WHERE m.user.id=:userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
     List<UserMeal> getBetween(@Param("startDate") LocalDateTime startDate,
                               @Param("endDate") LocalDateTime endDate,
