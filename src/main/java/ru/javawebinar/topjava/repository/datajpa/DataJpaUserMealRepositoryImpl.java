@@ -18,8 +18,6 @@ import java.util.List;
  */
 @Repository
 public class DataJpaUserMealRepositoryImpl implements UserMealRepository{
-    private static final Sort SORT_DATE_DESCRIPTION = new Sort("dateTime");
-
     @Autowired
     private ProxyUserMealRepository proxy;
 
@@ -52,6 +50,6 @@ public class DataJpaUserMealRepositoryImpl implements UserMealRepository{
 
     @Override
     public List<UserMeal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return null;
+        return proxy.getBetween(startDate, endDate, userId);
     }
 }
