@@ -7,5 +7,5 @@ import ru.javawebinar.topjava.Profiles;
  * Created by admin_DKRS on 06.04.16.
  */
 @ActiveProfiles(Profiles.JDBC)
-public class JdbcUserRepositoryImplTest extends UserMealServiceTest {
+public class JdbcUserRepositoryImplTest extends UserServiceTest {
 }
