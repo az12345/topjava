@@ -4,6 +4,7 @@ import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,6 +44,12 @@ public class InMemoryUserMealRepositoryImpl implements UserMealRepository {
     @Override
     public Collection<UserMeal> getAll() {
         return repository.values();
+    }
+
+
+    @Override
+    public UserMeal save(UserMeal userMeal, int userId) {
+        return null;
     }
 }
 
