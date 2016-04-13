@@ -3,11 +3,11 @@
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
-<head>
-    <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
-    <title>Meal</title>
-    <%--<link rel="stylesheet" href="css/style.css">--%>
-</head>
+<%--<head>--%>
+    <%--<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">--%>
+    <%--<title>Meal</title>--%>
+    <%--&lt;%&ndash;<link rel="stylesheet" href="css/style.css">&ndash;%&gt;--%>
+<%--</head>--%>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>

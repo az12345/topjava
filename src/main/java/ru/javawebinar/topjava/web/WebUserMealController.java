@@ -20,17 +20,18 @@ import java.time.LocalTime;
  */
 
 @Controller
+@RequestMapping(value = "meals")
 public class WebUserMealController {
     @Autowired
     private UserMealRestController mealController;
 
-    @RequestMapping(value = "meals", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String mealList(Model model){
         model.addAttribute("mealList", mealController.getAll());
         return "mealList";
     }
 
-    @RequestMapping(value = "meals/action=filter", method = RequestMethod.POST)
+    @RequestMapping(value = "filter", method = RequestMethod.POST)
     public String mealListFilter(Model model,
                                  @ModelAttribute("startDate")String startDateModel,
                                  @ModelAttribute("endDate")String endDateModel,
@@ -44,7 +45,7 @@ public class WebUserMealController {
         return "mealList";
     }
 
-    @RequestMapping(value = "meals/action=update&id={id}", method = RequestMethod.GET)
+    @RequestMapping(value = "update&id={id}", method = RequestMethod.GET)
     public String mealCreate(Model model,
                              @PathVariable("id")Integer id){
         final UserMeal meal = mealController.get(id);
@@ -52,7 +53,7 @@ public class WebUserMealController {
         return "mealEdit";
     }
 
-    @RequestMapping(value = "meals", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String mealUpdate(@ModelAttribute("id")String id,
                              @ModelAttribute("dateTime")String dateTime,
                              @ModelAttribute("description")String description,
@@ -70,14 +71,14 @@ public class WebUserMealController {
         return "redirect:/meals";
     }
 
-    @RequestMapping(value = "meals/action=create", method = RequestMethod.GET)
+    @RequestMapping(value = "create", method = RequestMethod.GET)
     public String mealCreate(Model model){
         final UserMeal meal = new UserMeal(LocalDateTime.now(), "", 1000);  // create
         model.addAttribute("meal", meal);
         return "mealEdit";
     }
 
-    @RequestMapping(value = "meals/action=delete&id={id}", method = RequestMethod.GET)
+    @RequestMapping(value = "delete&id={id}", method = RequestMethod.GET)
     public String mealDelete(@PathVariable("id")Integer id){
         mealController.delete(id);
         return "redirect:/meals";
