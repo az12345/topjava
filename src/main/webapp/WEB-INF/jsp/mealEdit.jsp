@@ -6,7 +6,7 @@
 <head>
     <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
     <title>Meal</title>
-    <link rel="stylesheet" href="css/style.css">
+    <%--<link rel="stylesheet" href="css/style.css">--%>
 </head>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
