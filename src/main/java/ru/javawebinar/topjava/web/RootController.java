@@ -51,13 +51,13 @@ public class RootController {
         return "redirect:meals";
     }
 
-    @RequestMapping(value = "/meals", method = RequestMethod.GET)
+    @RequestMapping(value = "meals", method = RequestMethod.GET)
     public String mealList(Model model){
         model.addAttribute("mealList", mealController.getAll());
         return "mealList";
     }
 
-    @RequestMapping(value = "/meals/action=filter", method = RequestMethod.POST)
+    @RequestMapping(value = "meals/action=filter", method = RequestMethod.POST)
     public String mealListFilter(Model model,
                                  @ModelAttribute("startDate")String startDateModel,
                                  @ModelAttribute("endDate")String endDateModel,
