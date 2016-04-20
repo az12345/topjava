@@ -30,4 +30,5 @@ public interface UserMealService {
     UserMeal save(UserMeal meal, int userId);
 
     UserMeal getWithUser(Integer id, Integer userId);
+
 }

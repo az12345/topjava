@@ -20,7 +20,7 @@ import java.util.List;
  * 06.03.2015.
  */
 @Controller
-public class AbstractUserMealController {
+abstract public class AbstractUserMealController {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractUserMealController.class);
 
     @Autowired

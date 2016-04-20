@@ -1,6 +1,11 @@
 package ru.javawebinar.topjava.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.*;
+
 import javax.persistence.*;
+
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.*;
 
 /**
  * User: gkislin
@@ -8,7 +13,7 @@ import javax.persistence.*;
  */
 @MappedSuperclass
 @Access(AccessType.FIELD)
-//@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, isGetterVisibility = NONE, setterVisibility = NONE)
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class BaseEntity {
     public static final int START_SEQ = 100000;
 
