@@ -28,6 +28,6 @@ public class UserMealControllerTest extends AbstractUserMealControllerTest{
                 .andExpect(forwardedUrl("/WEB-INF/jsp/mealList.jsp"))
                 .andExpect(model().attribute("mealList", hasSize(6)))
                 .andExpect(model().attribute("mealList",
-                        equalTo(UserMealsUtil.getWithExceeded(USER_MEALS, USER.getCaloriesPerDay()))));
+                        hasItems(UserMealsUtil.getWithExceeded(USER_MEALS, USER.getCaloriesPerDay()))));
     }
 }
