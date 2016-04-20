@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -53,7 +54,6 @@ abstract public class AbstractUserMealControllerTest {
                 .addFilter(CHARACTER_ENCODING_FILTER)
                 .build();
     }
-
 //    @Before
 //    public void setUp() {
 //        userMealService.evictCache();

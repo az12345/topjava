@@ -31,20 +31,6 @@ public class UserMealRestController extends AbstractUserMealController {
         return super.getAll();
     }
 
-//    @RequestMapping(value = "filter", method = RequestMethod.POST)
-//    public String mealListFilter(Model model,
-//                                 @ModelAttribute("startDate")String startDateModel,
-//                                 @ModelAttribute("endDate")String endDateModel,
-//                                 @ModelAttribute("startTime")String startTimeModel,
-//                                 @ModelAttribute("endTime")String endTimeModel){
-//        LocalDate startDate = TimeUtil.parseLocalDate(startDateModel);
-//        LocalDate endDate = TimeUtil.parseLocalDate(endDateModel);
-//        LocalTime startTime = TimeUtil.parseLocalTime(startTimeModel);
-//        LocalTime endTime = TimeUtil.parseLocalTime(endTimeModel);
-//        model.addAttribute("mealList", mealController.getBetween(startDate, startTime, endDate, endTime));
-//        return "mealList";
-//    }
-//
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody UserMeal meal, @PathVariable("id") int id) {
         super.update(meal, id);
