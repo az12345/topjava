@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.meal;
 import org.junit.Test;
 import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
+import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasProperty;
@@ -26,6 +27,7 @@ public class UserMealControllerTest extends AbstractUserMealControllerTest{
                 .andExpect(view().name("mealList"))
                 .andExpect(forwardedUrl("/WEB-INF/jsp/mealList.jsp"))
                 .andExpect(model().attribute("mealList", hasSize(6)))
-                .andExpect(model().attribute("mealList", hasItems(USER_MEALS)));
+                .andExpect(model().attribute("mealList",
+                        equalTo(UserMealsUtil.getWithExceeded(USER_MEALS, USER.getCaloriesPerDay()))));
     }
 }
