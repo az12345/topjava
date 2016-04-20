@@ -1,19 +1,17 @@
 package ru.javawebinar.topjava.web.meal;
 
 import org.junit.Test;
-import ru.javawebinar.topjava.matcher.ModelMatcher;
-import ru.javawebinar.topjava.model.UserMealWithExceed;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.javawebinar.topjava.util.UserMealsUtil;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static ru.javawebinar.topjava.UserTestData.USER;
 import static ru.javawebinar.topjava.MealTestData.USER_MEALS;
+import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
 
 /**
  * Created by admin_DKRS on 20.04.16.
@@ -28,6 +26,12 @@ public class UserMealControllerTest extends AbstractUserMealControllerTest{
                 .andExpect(forwardedUrl("/WEB-INF/jsp/mealList.jsp"))
                 .andExpect(model().attribute("mealList", hasSize(6)))
                 .andExpect(model().attribute("mealList",
-                        hasItems(UserMealsUtil.getWithExceeded(USER_MEALS, USER.getCaloriesPerDay()))));
+                        hasItem(
+                                allOf(
+                                        hasProperty("id", is(100007)),
+                                        hasProperty("description", is("Ужин")),
+                                        hasProperty("calories", is(510)))
+                                )
+                        ));
     }
 }
