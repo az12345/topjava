@@ -26,11 +26,15 @@ public class UserMealControllerTest extends AbstractUserMealControllerTest{
                 .andExpect(forwardedUrl("/WEB-INF/jsp/mealList.jsp"))
                 .andExpect(model().attribute("mealList", hasSize(6)))
                 .andExpect(model().attribute("mealList",
-                        hasItem(
+                        hasItems(
                                 allOf(
                                         hasProperty("id", is(100007)),
                                         hasProperty("description", is("Ужин")),
-                                        hasProperty("calories", is(510)))
+                                        hasProperty("calories", is(510))),
+                                allOf(
+                                        hasProperty("id", is(100006)),
+                                        hasProperty("description", is("Обед")),
+                                        hasProperty("calories", is(1000)))
                                 )
                         ));
     }
