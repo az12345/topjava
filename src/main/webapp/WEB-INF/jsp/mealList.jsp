@@ -16,6 +16,26 @@
         <div class="shadow">
             <h3><fmt:message key="meals.title"/></h3>
 
+            <form method="post" action="meals/filter">
+                <dl>
+                    <dt>From Date:</dt>
+                    <dd><input type="date" name="startDate" value="${startDate}"></dd>
+                </dl>
+                <dl>
+                    <dt>To Date:</dt>
+                    <dd><input type="date" name="endDate" value="${endDate}"></dd>
+                </dl>
+                <dl>
+                    <dt>From Time:</dt>
+                    <dd><input type="time" name="startTime" value="${startTime}"></dd>
+                </dl>
+                <dl>
+                    <dt>To Time:</dt>
+                    <dd><input type="time" name="endTime" value="${endTime}"></dd>
+                </dl>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+
             <div class="view-box">
                 <a class="btn btn-sm btn-info" id="add"><fmt:message key="meals.add"/></a>
 
