@@ -61,7 +61,12 @@
                         <label for="dateTime" class="control-label col-xs-3">Date</label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" placeholder="dateTime">
+                            <input type="datetime-local"
+                                   readonly="readonly"
+                                   class="form-control"
+                                   id="dateTime"
+                                   name="dateTime"
+                                   value="<%= java.time.LocalDateTime.now() %>">
                         </div>
                     </div>
 
