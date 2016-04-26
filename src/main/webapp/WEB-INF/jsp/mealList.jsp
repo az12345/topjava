@@ -128,7 +128,6 @@
     var ajaxUrl = 'ajax/meals/';
     var datatableApi;
 
-    // $(document).ready(function () {
     $(function () {
         datatableApi = $('#datatable').dataTable({
             "bPaginate": false,
@@ -143,12 +142,6 @@
                 {
                     "mData": "calories"
                 },
-//                {
-//                    "mData": "enabled"
-//                },
-//                {
-//                    "mData": "registered"
-//                },
                 {
                     "sDefaultContent": "",
                     "bSortable": false
