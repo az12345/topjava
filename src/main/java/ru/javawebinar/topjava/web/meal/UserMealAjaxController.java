@@ -32,7 +32,7 @@ public class UserMealAjaxController extends AbstractUserMealController {
                                @RequestParam("calories") String calories) {
 
         UserMeal userMeal = new UserMeal(
-                LocalDateTime.parse(dateTime.toString()),
+                dateTime,
                 description,
                 Integer.valueOf(calories));
         if (id == 0) {

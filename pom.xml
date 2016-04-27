@@ -137,7 +137,6 @@
             </exclusions>
         </dependency>
 
-
         <dependency>
             <groupId>net.sargue</groupId>
             <artifactId>java-time-jsptags</artifactId>

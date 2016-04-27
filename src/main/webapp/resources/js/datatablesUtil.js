@@ -8,6 +8,10 @@ function makeEditable() {
         deleteRow($(this).attr("id"));
     });
 
+    $('#filter').click(function () {
+        updateTable();
+    });
+
     $('#detailsForm').submit(function () {
         save();
         return false;
@@ -29,13 +33,21 @@ function deleteRow(id) {
     });
 }
 
+function clearTable() {
+    $.get(ajaxUrl, function (data) {
+        datatableApi.clear();
+    });
+}
 function updateTable() {
     $.get(ajaxUrl, function (data) {
-        datatableApi.fnClearTable();
+        datatableApi.clear();
         $.each(data, function (key, item) {
-            datatableApi.fnAddData(item);
+            //datatableApi.row.add(item);
+            datatableApi.row.add(item).column(2).data().filter(function() {
+                return this > 500 ? true : false;
+            });
         });
-        datatableApi.fnDraw();
+        datatableApi.draw();
     });
 }
 

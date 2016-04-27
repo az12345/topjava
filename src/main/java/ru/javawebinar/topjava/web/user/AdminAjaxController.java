@@ -36,5 +36,5 @@ public class AdminAjaxController extends AbstractUserController {
         } else {
         super.update(user, id);
         }
-        }
-        }
+    }
+}

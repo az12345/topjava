@@ -33,7 +33,7 @@
                     <dt>To Time:</dt>
                     <dd><input type="time" name="endTime" value="${endTime}"></dd>
                 </dl>
-                <button type="submit" class="btn btn-primary">Filter</button>
+                <a class="btn btn-sm btn-info" id="filter">Filter</a>
             </form>
 
             <div class="view-box">
@@ -81,12 +81,7 @@
                         <label for="dateTime" class="control-label col-xs-3">Date</label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local"
-                                   readonly="readonly"
-                                   class="form-control"
-                                   id="dateTime"
-                                   name="dateTime"
-                                   value="<%= java.time.LocalDateTime.now() %>">
+                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime">
                         </div>
                     </div>
 
@@ -129,7 +124,7 @@
     var datatableApi;
 
     $(function () {
-        datatableApi = $('#datatable').dataTable({
+        datatableApi = $('#datatable').DataTable({
             "bPaginate": false,
             "bInfo": false,
             "aoColumns": [
