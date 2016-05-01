@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.LoggedUser;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.service.UserMealService;
+import ru.javawebinar.topjava.to.UserMealTo;
 import ru.javawebinar.topjava.to.UserMealWithExceed;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.util.UserMealsUtil;
@@ -48,6 +49,13 @@ public abstract class AbstractUserMealController {
         LOG.info("update {} for User {}", meal, userId);
         service.update(meal, userId);
     }
+
+    public void update(UserMealTo mealTo) {
+        int userId = LoggedUser.id();
+        LOG.info("update {} for User {}", mealTo, userId);
+        service.update(mealTo, userId);
+    }
+
 
     public UserMeal create(UserMeal meal) {
         meal.setId(null);

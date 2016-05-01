@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.repository.UserMealRepository;
+import ru.javawebinar.topjava.to.UserMealTo;
+import ru.javawebinar.topjava.util.UserMealUtil;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 
 import java.time.LocalDateTime;
@@ -42,6 +44,13 @@ public class UserMealServiceImpl implements UserMealService {
     @Override
     public UserMeal update(UserMeal meal, int userId) {
         return ExceptionUtil.check(repository.save(meal, userId), meal.getId());
+    }
+
+    @Override
+    public UserMeal update(UserMealTo mealTo, int userId) {
+        UserMeal meal = get(mealTo.getId(), userId);
+        UserMeal res = UserMealUtil.updateFromTo(meal, mealTo);
+        return ExceptionUtil.check(repository.save(UserMealUtil.updateFromTo(meal, mealTo), userId), meal.getId());
     }
 
     @Override
