@@ -111,7 +111,7 @@ public class UserMealRestControllerTest extends AbstractControllerTest {
     @Test
     public void testFilterAll() throws Exception {
         mockMvc.perform(get(REST_URL + "filter?startDate=&endTime=")
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(TestUtil.userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(
