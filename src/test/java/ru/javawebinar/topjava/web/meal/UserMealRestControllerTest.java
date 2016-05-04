@@ -55,6 +55,7 @@ public class UserMealRestControllerTest extends AbstractControllerTest {
         UserMeal updated = getUpdated();
 
         mockMvc.perform(put(REST_URL + MEAL1_ID).contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(USER))
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
 
