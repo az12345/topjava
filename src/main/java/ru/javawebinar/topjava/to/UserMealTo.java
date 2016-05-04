@@ -23,7 +23,6 @@ public class UserMealTo {
 
     @NotNull
     protected Integer calories;
-    protected User user;
 
     public UserMealTo() {
     }
@@ -69,14 +68,6 @@ public class UserMealTo {
 
     public void setCalories(int calories) {
         this.calories = calories;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override
