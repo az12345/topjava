@@ -44,7 +44,7 @@ public class UserMealAjaxController extends AbstractUserMealController implement
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> updateOrCreate(@Valid UserMealTo mealTo, BindingResult result) {
         if (result.hasErrors()) {
-            // TODO change to exception handler
+
             StringBuilder sb = new StringBuilder();
             result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
             throw new ValidationException(String.format("Error Info: %s; HttpStatus: %s",
