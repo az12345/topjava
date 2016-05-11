@@ -34,8 +34,8 @@ public interface ExceptionInfoHandler {
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
     default ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
-
-        return logAndGetErrorInfo(req, e);
+        DataIntegrityViolationException ex = new DataIntegrityViolationException("user with email already exist");
+        return logAndGetErrorInfo(req, ex);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
